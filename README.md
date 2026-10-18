@@ -1,8 +1,10 @@
 # Composed Methods
 
-An [Agent Skill](https://agentskills.io) for reviewing and improving code readability through composed methods. It helps an AI coding agent make process entry points read as ordered steps, keep helpers at a consistent level of abstraction, and preserve important control and resource ownership.
+A focused engineering skill for reviewing and improving code readability. It makes process entry points read as ordered steps, keeps helpers at a consistent level of abstraction, and keeps control flow and resource ownership apparent.
 
-The skill reads the target repository's conventions before judging code. It uses the language and project's naming style and configured complexity gate, if one exists. It does not prescribe a universal naming scheme or complexity threshold.
+The workflow follows the production engineering pattern in [Addy Osmani's Agent Skills](https://github.com/addyosmani/agent-skills): explicit activation, project-context review, scoped repair, verification gates, and failure modes. It complements that collection's broader `code-review-and-quality` and `code-simplification` skills with a composed-method lens. This is an independent repository.
+
+The skill reads each target repository's instructions before judging code. It follows that project's language conventions and configured complexity threshold, if any; it does not impose a universal style or score.
 
 ## Install
 
@@ -22,7 +24,17 @@ Ask your agent to use `composed-methods` for a focused pass. For example:
 - “Use composed-methods to refactor this module for clarity while preserving behavior.”
 - “Have a separate agent review the generated code with composed-methods before final review.”
 
-Review and refactoring are separate modes: a review reports findings, while a refactor edits only when requested. The skill keeps changes within the requested scope and verifies behavior with the target project's checks.
+The skill starts in review-only mode unless edits are requested. Its repair workflow preserves behavior, uses characterization tests for untested legacy paths when feasible, runs the project's applicable checks, and reports the evidence. It belongs after implementation and focused tests and before the final broad review.
+
+## Validate changes
+
+Check the skill against the Agent Skills reference validator:
+
+```bash
+uvx --from skills-ref agentskills validate ./skills/composed-methods
+```
+
+After publishing, `npx skills add brandobull/composed-methods-skill --list` confirms that an installer discovers it.
 
 ## License
 
